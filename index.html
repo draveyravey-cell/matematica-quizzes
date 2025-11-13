@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Exercícios de Matemática</title>
+
+  <meta name="color-scheme" content="light dark" />
+  <meta id="meta-theme-color" name="theme-color" content="#0e0f11" />
+
+  <!-- Config do app -->
+  <script>
+    window.APP_CONFIG = {
+      authProvider: "supabase",
+      supabaseUrl: "https://gyyoustzoasdytxflwoc.supabase.co",
+      supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd5eW91c3R6b2FzZHl0eGZsd29jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3OTkyNTQsImV4cCI6MjA3ODM3NTI1NH0.SvkebZ9pxqYhzzY9Zeu0EOGzA6-vFXb0uQ6DbpmRi4Y",
+      storagePrefix: "mt",
+      subjectName: "Matemática"
+    };
+  </script>
+  <!-- SDK Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Evita flash de tema -->
+  <script>
+    (function () {
+      try {
+        const saved = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const theme = saved || (prefersDark ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      } catch (e) { }
+    })();
+  </script>
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+
+<body>
+  <!-- SVG sprite (ícones) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="i-search" viewBox="0 0 24 24">
+      <path fill="currentColor"
+        d="M10 2a8 8 0 1 1 5.293 13.707l4.5 4.5-1.414 1.414-4.5-4.5A8 8 0 0 1 10 2zm0 2a6 6 0 1 0 0 12A6 6 0 0 0 10 4z" />
+    </symbol>
+    <symbol id="i-filter" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M3 5h18v2l-7 7v5l-4 2v-7L3 7z" />
+    </symbol>
+    <symbol id="i-sync" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M12 6V3l4 4-4 4V8a4 4 0 1 0 3.465 6H17a6 6 0 1 1-5-8z" />
+    </symbol>
+    <symbol id="i-user" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-5 0-9 2.5-9 5v3h18v-3c0-2.5-4-5-9-5Z" />
+    </symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M10 17v2H4V5h6v2H6v10h4Zm9-5-4-4v3h-5v2h5v3Z" />
+    </symbol>
+    <symbol id="i-help" viewBox="0 0 24 24">
+      <path fill="currentColor"
+        d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm1 17h-2v-2h2Zm2.07-7.75-.9.92A2.49 2.49 0 0 0 13 14h-2v-.5a4 4 0 0 1 1.17-2.83l1.24-1.26a1.5 1.5 0 1 0-2.54-1.06H9a3.5 3.5 0 1 1 6.07 2.39Z" />
+    </symbol>
+    <symbol id="i-info" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M11 17h2v-6h-2Zm0-8h2V7h-2Zm1-7a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Z" />
+    </symbol>
+    <symbol id="i-download" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M5 20h14v-2H5Zm7-16-4 4h3v6h2V8h3Z" />
+    </symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M5 20h14v-2H5Zm7-16-4 4h3v6h2V8h3Z" transform="rotate(180 12 12)" />
+    </symbol>
+    <symbol id="i-time" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M12 1a11 11 0 1 0 11 11A11.012 11.012 0 0 0 12 1Zm1 12h5v-2h-2v-6h-2v7Z" />
+    </symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M11 11V5h2v6h6v2h-2v6h-2v-6H5v-2z" />
+    </symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24">
+      <path fill="currentColor"
+        d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25Zm18-11.5a1 1 0 0 0 0-1.41L19.66 1a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75L21 5.75Z" />
+    </symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M6 7h12v14H6zM9 4h6l1 2H8l1-2Z" />
+    </symbol>
+    <symbol id="i-play" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M8 5v14l11-7z" />
+    </symbol>
+    <symbol id="i-list" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M4 6h16v2H4zM4 11h16v2H4zM4 16h16v2H4z" />
+    </symbol>
+  </svg>
+
+  <!-- Skip link -->
+  <a class="skip-link" href="#inicio">Pular para o conteúdo</a>
+
+  <header class="topbar" role="banner">
+    <div class="container topbar__inner">
+      <a class="brand" href="#inicio" aria-label="Página inicial">Matemática Prática</a>
+
+      <nav id="main-nav" class="nav topbar__nav" aria-label="Navegação principal">
+        <a href="#inicio" data-nav="inicio">Início</a>
+        <a href="#exercicios" data-nav="exercicios">Exercícios</a>
+        <a href="#historico" data-nav="historico">Histórico</a>
+        <a href="#editor" data-nav="editor">Editor</a>
+        <a href="#conta" data-nav="conta">Conta</a>
+        <a href="#colecoes" data-nav="colecoes">Coleções</a>
+        <a href="#sobre" data-nav="sobre">Sobre</a>
+      </nav>
+
+      <div class="topbar__actions">
+        <span id="status-badge" class="status-badge" title="Status">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="status-badge-text">Local</span>
+        </span>
+
+        <button id="theme-toggle" class="icon-btn" type="button" aria-label="Alternar tema" title="Alternar tema">
+          <span class="theme-icon" aria-hidden="true">🌙</span>
+        </button>
+
+        <button id="account-btn" class="icon-btn" type="button" aria-label="Conta" title="Minha conta">
+          <svg class="icon" aria-hidden="true">
+            <use href="#i-user" />
+          </svg>
+        </button>
+
+        <button id="menu-toggle" class="icon-btn topbar__menu" type="button" aria-label="Abrir menu"
+          aria-controls="main-nav" aria-expanded="false" title="Menu">
+          <svg class="icon" aria-hidden="true">
+            <use href="#i-list" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- backdrop para o menu mobile -->
+    <div id="nav-backdrop" class="topbar__backdrop" hidden></div>
+  </header>
+
+  <!-- Fundo decorativo -->
+  <div class="bg-decor" aria-hidden="true">
+    <svg viewBox="0 0 1440 360" preserveAspectRatio="none" class="bg-decor__svg">
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="rgba(106,166,255,.35)" />
+          <stop offset="100%" stop-color="rgba(255,224,138,.12)" />
+        </linearGradient>
+        <radialGradient id="g2" cx="75%" cy="20%" r="60%">
+          <stop offset="0%" stop-color="rgba(133,193,255,.5)" />
+          <stop offset="100%" stop-color="rgba(133,193,255,0)" />
+        </radialGradient>
+      </defs>
+      <rect width="1440" height="360" fill="url(#g2)" />
+      <path d="M0,200 C240,280 480,120 720,200 C960,280 1200,160 1440,220 L1440,360 L0,360 Z" fill="url(#g1)" />
+    </svg>
+  </div>
+
+  <!-- Timer do simulado -->
+  <div id="exam-timer" class="exam-timer hidden" aria-live="polite">
+    <svg class="icon" aria-hidden="true">
+      <use href="#i-time" />
+    </svg>
+    <span id="exam-timer-text">00:00</span>
+    <button id="exam-timer-toggle" class="exam-timer__btn" type="button" title="Pausar/Retomar">
+      Pausar
+    </button>
+  </div>
+
+  <main class="container">
+    <section class="hero" id="inicio">
+      <h1>Exercícios de Matemática</h1>
+      <p>Pratique álgebra, geometria, funções, probabilidade e muito mais. 🚀</p>
+    </section>
+
+    <section class="controls" id="exercicios">
+      <!-- Ajuda: Exercícios -->
+      <details class="help" id="help-exercicios">
+        <summary><svg class="icon">
+            <use href="#i-help" />
+          </svg> Como usar os exercícios</summary>
+        <ul>
+          <li>Use a busca para filtrar por enunciado/tema/categoria.</li>
+          <li>Filtros refinam por categoria e dificuldade; “Limpar” reseta.</li>
+          <li>Clique em “Responder” para abrir o player; use Anterior/Próxima.</li>
+          <li>Paginação controla quantos itens por página e navega entre páginas.</li>
+        </ul>
+      </details>
+
+      <div class="controls__row">
+        <label for="busca" class="sr-only">Buscar exercícios</label>
+        <input id="busca" type="search" placeholder="Buscar por enunciado, tema ou categoria..."
+          data-tip="Digite termos como 'equação do 2º grau', 'função afim', 'Pitágoras'..." />
+        <span class="hint"><svg class="icon" aria-hidden="true">
+            <use href="#i-search" />
+          </svg> Dica: experimente “equação do 2º grau”, “função afim”, “Pitágoras”...</span>
+      </div>
+
+      <div class="controls__row controls__row--filters">
+        <div class="views">
+          <button id="view-all" class="chip is-active" type="button" data-tip="Mostrar todos">Todos</button>
+          <button id="view-fav" class="chip" type="button" data-tip="Mostrar favoritos">Favoritos</button>
+          <button id="view-err" class="chip" type="button" data-tip="Mostrar caderno de erros">Erros</button>
+        </div>
+        <div class="filters">
+          <label for="f-categoria" class="sr-only">Filtrar por categoria</label>
+          <select id="f-categoria" aria-label="Filtrar por categoria"
+            data-tip="Filtre por categoria (ex.: Álgebra, Geometria...)">
+            <option value="all">Todas as categorias</option>
+          </select>
+          <!-- Simulado -->
+          <div class="controls__row controls__row--sim">
+            <div class="sim">
+              <label class="sr-only" for="sim-qtd">Quantidade de questões</label>
+              <select id="sim-qtd" aria-label="Quantidade de questões">
+                <option value="5">5 questões</option>
+                <option value="10" selected>10 questões</option>
+                <option value="20">20 questões</option>
+                <option value="30">30 questões</option>
+                <option value="50">50 questões</option>
+              </select>
+
+              <label class="sr-only" for="sim-dur">Duração</label>
+              <select id="sim-dur" aria-label="Duração do simulado">
+                <option value="5">5 min</option>
+                <option value="10" selected>10 min</option>
+                <option value="20">20 min</option>
+                <option value="30">30 min</option>
+              </select>
+
+              <button id="sim-start" class="button primary" type="button" title="Iniciar simulado">
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-time" />
+                </svg> Iniciar simulado
+              </button>
+              <span class="hint">Sem feedback durante o simulado; resultado ao final.</span>
+            </div>
+          </div>
+
+          <label for="f-dificuldade" class="sr-only">Filtrar por dificuldade</label>
+          <select id="f-dificuldade" aria-label="Filtrar por dificuldade"
+            data-tip="Filtre por dificuldade (fácil, médio, difícil)">
+            <option value="all">Todas as dificuldades</option>
+          </select>
+
+          <button id="f-clear" class="button" type="button" title="Limpar filtros e busca"
+            data-tip="Limpar busca e filtros">
+            <svg class="icon" aria-hidden="true">
+              <use href="#i-info" />
+            </svg> Limpar
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="lista">
+      <h2>Lista de questões</h2>
+      <div id="msg" class="msg" aria-live="polite"></div>
+
+      <!-- Paginação (topo) -->
+      <div id="pager-top" class="pager" aria-label="Paginação de exercícios"></div>
+
+      <div id="lista-questoes" class="grid"></div>
+
+      <!-- Paginação (rodapé) -->
+      <div id="pager-bottom" class="pager" aria-label="Paginação de exercícios"></div>
+    </section>
+
+    <section id="historico" class="history">
+      <h2>Histórico de estudos</h2>
+      <!-- Ajuda: Histórico -->
+      <details class="help" id="help-historico">
+        <summary><svg class="icon">
+            <use href="#i-help" />
+          </svg> Como usar o histórico</summary>
+        <ul>
+          <li>Veja métricas gerais e as tentativas recentes.</li>
+          <li>Exporte JSON/CSV ou importe um histórico salvo.</li>
+          <li>Se estiver logado, use “Sincronizar agora” na aba Conta.</li>
+        </ul>
+      </details>
+      <p class="hint">Seus dados ficam salvos apenas no seu navegador (local).</p>
+
+      <div id="hist-stats" class="stats-grid"></div>
+
+      <div class="history__actions">
+        <input id="hist-file" type="file" accept="application/json" hidden />
+        <button id="hist-export" class="button" type="button" title="Exportar histórico em JSON">
+          <svg class="icon" aria-hidden="true">
+            <use href="#i-download" />
+          </svg> Exportar JSON
+        </button>
+        <button id="hist-export-csv" class="button" type="button" title="Exportar tentativas em CSV">
+          <svg class="icon" aria-hidden="true">
+            <use href="#i-download" />
+          </svg> Exportar CSV
+        </button>
+        <button id="hist-import" class="button" type="button" title="Importar histórico de um arquivo JSON">
+          <svg class="icon" aria-hidden="true">
+            <use href="#i-upload" />
+          </svg> Importar JSON
+        </button>
+        <button id="hist-clear" class="button" type="button" title="Remove todas as sessões e tentativas">
+          <svg class="icon" aria-hidden="true">
+            <use href="#i-info" />
+          </svg> Limpar histórico
+        </button>
+      </div>
+
+      <div class="history__list">
+        <h3>Tentativas recentes</h3>
+        <div id="hist-attempts"></div>
+      </div>
+
+      <div class="history__sessions">
+        <h3>Sessões</h3>
+        <div id="hist-sessions"></div>
+      </div>
+
+      <div class="history__perq">
+        <h3>Estatísticas por questão</h3>
+        <div id="hist-perq"></div>
+      </div>
+    </section>
+
+    <section id="editor" class="editor">
+      <h2>Editor de exercícios (JSON)</h2>
+      <!-- Ajuda: Editor -->
+      <details class="help" id="help-editor">
+        <summary><svg class="icon">
+            <use href="#i-help" />
+          </svg> Como usar o editor</summary>
+        <ul>
+          <li>Carregue do servidor ou de um arquivo local.</li>
+          <li>Valide/formate e aplique override para pré-visualizar no site.</li>
+          <li>Desativar override volta ao JSON do servidor; Limpar apaga o override salvo.</li>
+        </ul>
+      </details>
+      <p class="hint">
+        Edite e valide o JSON dos exercícios. Você pode “Aplicar (override)” para pré-visualizar no site sem alterar o
+        arquivo no servidor.
+      </p>
+
+      <div class="editor__actions">
+        <input id="editor-file" type="file" accept="application/json" hidden />
+        <button id="ed-load-server" class="button" type="button" title="Carregar data/exercicios.json do servidor">
+          <svg class="icon" aria-hidden="true">
+            <use href="#i-download" />
+          </svg> Carregar do servidor
+        </button>
+        <button id="ed-load-file" class="button" type="button" title="Carregar de um arquivo local">
+          <svg class="icon" aria-hidden="true">
+            <use href="#i-upload" />
+          </svg> Carregar arquivo…
+        </button>
+        <button id="ed-validate" class="button" type="button" title="Validar e formatar JSON">
+          <svg class="icon" aria-hidden="true">
+            <use href="#i-info" />
+          </svg> Validar/Formatar
+        </button>
+        <span class="editor__spacer"></span>
+        <button id="ed-apply" class="button primary" type="button" title="Aplicar override local (preview)">
+          <svg class="icon" aria-hidden="true">
+            <use href="#i-sync" />
+          </svg> Aplicar (override)
+        </button>
+        <button id="ed-disable" class="button" type="button" title="Desativar override">
+          <svg class="icon" aria-hidden="true">
+            <use href="#i-logout" />
+          </svg> Desativar override
+        </button>
+        <button id="ed-clear" class="button" type="button" title="Limpar override do navegador">
+          <svg class="icon" aria-hidden="true">
+            <use href="#i-info" />
+          </svg> Limpar override
+        </button>
+        <button id="ed-download" class="button" type="button" title="Baixar JSON atual">
+          <svg class="icon" aria-hidden="true">
+            <use href="#i-download" />
+          </svg> Baixar JSON
+        </button>
+      </div>
+
+      <div class="editor__status" id="ed-status" aria-live="polite"></div>
+
+      <div class="editor__wrap">
+        <label for="editor-json" class="sr-only">Conteúdo do JSON</label>
+        <textarea id="editor-json" spellcheck="false" aria-label="Conteúdo do JSON dos exercícios"></textarea>
+      </div>
+
+      <div id="editor-validation" class="validation"></div>
+
+      <!-- Auth (modal) -->
+      <div id="auth-overlay" class="overlay hidden" aria-hidden="true">
+        <section class="modal" role="dialog" aria-modal="true" aria-labelledby="auth-title"
+          aria-describedby="auth-desc">
+          <header class="modal__header">
+            <h2 id="auth-title">Entrar</h2>
+            <button id="auth-close" class="icon-btn" type="button" aria-label="Fechar">✕</button>
+          </header>
+          <div class="modal__body">
+            <p id="auth-desc" class="sr-only">Entre com e-mail e senha ou crie uma conta.</p>
+            <div class="form">
+              <div class="form-row">
+                <label class="form-label" for="auth-email">E-mail</label>
+                <input id="auth-email" class="form-input" type="email" autocomplete="email"
+                  placeholder="voce@exemplo.com" />
+              </div>
+              <div class="form-row">
+                <label class="form-label" for="auth-pass">Senha</label>
+                <input id="auth-pass" class="form-input" type="password" autocomplete="current-password"
+                  placeholder="••••••••" />
+              </div>
+              <div class="form-row form-actions">
+                <button id="auth-login" class="button primary" type="button">Entrar</button>
+                <button id="auth-signup" class="button" type="button">Criar conta</button>
+              </div>
+              <div id="auth-msg" class="msg" aria-live="polite"></div>
+            </div>
+          </div>
+          <footer class="modal__footer">
+            <div class="pager__size">
+              <span class="hint">Se preferir, continue como visitante. Seus dados ficam no navegador.</span>
+            </div>
+            <div class="modal__actions">
+              <button id="auth-logout" class="button" type="button" hidden>
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-logout" />
+                </svg> Sair
+              </button>
+              <button id="auth-sync" class="button" type="button" hidden>
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-sync" />
+                </svg> Sincronizar agora
+              </button>
+            </div>
+          </footer>
+        </section>
+      </div>
+    </section>
+
+    <section id="conta" class="account">
+      <h2>Minha conta</h2>
+      <!-- Ajuda: Conta -->
+      <details class="help" id="help-conta">
+        <summary><svg class="icon">
+            <use href="#i-help" />
+          </svg> Como usar a conta</summary>
+        <ul>
+          <li>Entre/crie conta no botão “Abrir painel de conta”.</li>
+          <li>Ative a sincronização automática e ajuste o intervalo.</li>
+          <li>“Sincronizar agora” força o push/pull dos dados.</li>
+        </ul>
+      </details>
+      <p class="hint">Gerencie seu login, sincronização e veja seu tempo online.</p>
+
+      <div class="account__grid">
+        <div class="account-card">
+          <h3>Status da conta</h3>
+          <ul class="account-list">
+            <li><span class="label">Estado:</span> <span id="acc-status">Visitante</span></li>
+            <li><span class="label">E-mail:</span> <span id="acc-email">—</span></li>
+            <li><span class="label">User ID:</span> <span id="acc-uid">—</span></li>
+            <li><span class="label">Conectividade:</span> <span id="acc-online">—</span></li>
+          </ul>
+          <div class="account-actions">
+            <button id="acc-open-modal" class="button" type="button" title="Abrir painel de conta">
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-user" />
+              </svg> Abrir painel de conta
+            </button>
+            <button id="acc-logout" class="button" type="button" title="Sair da conta">
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-logout" />
+              </svg> Sair
+            </button>
+          </div>
+        </div>
+
+        <div class="account-card">
+          <h3>Sincronização</h3>
+          <div class="switch-row">
+            <label class="switch" title="Ativar/desativar sincronização automática">
+              <input id="acc-auto-sync" type="checkbox" />
+              <span class="switch-slider" aria-hidden="true"></span>
+            </label>
+            <span>Sincronização automática</span>
+            <label class="sr-only" for="acc-interval">Intervalo</label>
+            <select id="acc-interval" title="Intervalo de auto sync">
+              <option value="60000">1 min</option>
+              <option value="300000">5 min</option>
+              <option value="900000">15 min</option>
+            </select>
+          </div>
+
+          <ul class="account-list">
+            <li><span class="label">Locais (tentativas):</span> <span id="acc-local-attempts">0</span></li>
+            <li><span class="label">Nuvem (último pull):</span> <span id="acc-remote-attempts">0</span></li>
+            <li><span class="label">Último pull:</span> <span id="acc-last-pull">—</span></li>
+            <li><span class="label">Último push:</span> <span id="acc-last-push">—</span></li>
+          </ul>
+
+          <div class="account-actions">
+            <button id="acc-sync-now" class="button primary" type="button" title="Sincronizar agora">
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-sync" />
+              </svg> Sincronizar agora
+            </button>
+          </div>
+          <div id="acc-sync-msg" class="msg" aria-live="polite"></div>
+        </div>
+
+        <div class="account-card">
+          <h3>Tempo online</h3>
+          <ul class="account-list">
+            <li><span class="label">Sessão atual:</span> <span id="acc-time-session">00:00:00</span></li>
+            <li><span class="label">Total neste usuário:</span> <span id="acc-time-total">00:00:00</span></li>
+          </ul>
+          <div class="account-actions">
+            <button id="acc-time-reset" class="button" type="button" title="Zerar total">
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-time" />
+              </svg> Zerar total
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="colecoes" class="collections">
+      <h2>Coleções</h2>
+      <details class="help" id="help-colecoes">
+        <summary><svg class="icon">
+            <use href="#i-help" />
+          </svg> Como usar as coleções</summary>
+        <ul>
+          <li>Crie coleções nomeadas para agrupar questões específicas (ex.: “Equações — 2º grau”).</li>
+          <li>Adicione questões aos conjuntos pelo botão “Coleções” no card ou por este painel.</li>
+          <li>Inicie um estudo direto por uma coleção usando “Iniciar”.</li>
+          <li>Exportar/Importar permite compartilhar ou migrar coleções.</li>
+        </ul>
+      </details>
+
+      <div class="collections__actions">
+        <input id="col-new-name" class="form-input" placeholder="Nome da nova coleção" />
+        <button id="col-new-create" class="button primary" type="button" title="Criar coleção">
+          <svg class="icon" aria-hidden="true">
+            <use href="#i-plus" />
+          </svg> Criar coleção
+        </button>
+        <span class="editor__spacer"></span>
+        <input id="col-file" type="file" accept="application/json" hidden />
+        <button id="col-export-all" class="button" type="button" title="Exportar todas as coleções">
+          <svg class="icon">
+            <use href="#i-download" />
+          </svg> Exportar todas
+        </button>
+        <button id="col-import" class="button" type="button" title="Importar coleções (JSON)">
+          <svg class="icon">
+            <use href="#i-upload" />
+          </svg> Importar
+        </button>
+      </div>
+
+      <div id="collections-list" class="collections__grid"></div>
+    </section>
+    <!-- Picker de Coleções -->
+    <div id="col-overlay" class="overlay hidden" aria-hidden="true">
+      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="col-title" aria-describedby="col-desc">
+        <header class="modal__header">
+          <h2 id="col-title">Adicionar à coleção</h2>
+          <button id="col-close" class="icon-btn" type="button" aria-label="Fechar">✕</button>
+        </header>
+        <div class="modal__body">
+          <p id="col-desc" class="hint">Selecione as coleções para incluir esta questão ou crie uma nova.</p>
+          <ul id="col-list" class="options"></ul>
+
+          <div class="form" style="margin-top:.6rem;">
+            <div class="form-row">
+              <label class="form-label" for="col-new2">Criar e adicionar</label>
+              <input id="col-new2" class="form-input" type="text" placeholder="Nome da coleção" />
+            </div>
+            <div class="form-row form-actions">
+              <button id="col-create-add" class="button primary" type="button">
+                <svg class="icon">
+                  <use href="#i-plus" />
+                </svg> Criar e adicionar
+              </button>
+            </div>
+          </div>
+          <div id="col-msg" class="msg" aria-live="polite"></div>
+        </div>
+        <footer class="modal__footer">
+          <div class="modal__actions">
+            <button id="col-done" class="button" type="button">Concluir</button>
+          </div>
+        </footer>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer" id="sobre">
+    <div class="container">
+      <p>Feito para estudar Matemática. Interface e código em evolução.</p>
+    </div>
+  </footer>
+
+  <!-- Player (modal) -->
+  <div id="player-overlay" class="overlay hidden" aria-hidden="true">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="player-title"
+      aria-describedby="player-desc">
+      <header class="modal__header">
+        <h2 id="player-title">Responder exercício</h2>
+        <button id="player-close" class="icon-btn" type="button" aria-label="Fechar">✕</button>
+      </header>
+
+      <div class="modal__body" id="player-content">
+        <p id="player-desc" class="sr-only">Selecione ou digite sua resposta e clique em Verificar.</p>
+      </div>
+
+      <footer class="modal__footer">
+        <div class="feedback" id="player-feedback" aria-live="polite"></div>
+        <div class="modal__actions">
+          <button id="player-prev" class="button" type="button">Anterior</button>
+          <button id="player-next" class="button" type="button">Próxima</button>
+          <button id="player-finish" class="button" type="button">Finalizar</button>
+          <button id="player-verify" class="button primary" type="button" disabled>Verificar</button>
+        </div>
+      </footer>
+    </section>
+  </div>
+
+  <!-- Ordem dos scripts -->
+  <script src="assets/js/storage.js" defer></script>
+  <script src="assets/js/a11y.js" defer></script>
+  <script src="assets/js/player.js" defer></script>
+  <script src="assets/js/exam.js" defer></script>
+  <script src="assets/js/history.js" defer></script>
+  <script src="assets/js/editor.js" defer></script>
+  <script src="assets/js/collections.js" defer></script>
+  <script src="assets/js/auth.js" defer></script>
+  <script src="assets/js/sync.js" defer></script>
+  <script src="assets/js/account.js" defer></script>
+  <script src="assets/js/ui.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
+</body>
+
+</html>
